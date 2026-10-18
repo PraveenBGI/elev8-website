@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+/*
+  elev8 design system, modelled on the NextSaaS theme:
+  Inter Tight, light large headlines, near-black ink, cool grey surfaces,
+  inset rounded gradient panels. The theme's purple is replaced by elev8 blue.
+*/
+@theme {
+  --font-sans: "Inter Tight Variable", "Inter Tight", ui-sans-serif, system-ui, "Segoe UI", Arial, sans-serif;
+
+  /* elev8 brand blue (logo #004AA5) */
+  --color-primary-50: #eef4fc;
+  --color-primary-100: #d9e6f7;
+  --color-primary-200: #b3cdef;
+  --color-primary-300: #7faae2;
+  --color-primary-400: #3f7fcf;
+  --color-primary-500: #0062c4;
+  --color-primary-600: #004aa5;
+  --color-primary-700: #003d88;
+  --color-primary-800: #00316d;
+  --color-primary-900: #0b2350;
+
+  /* elev8 brand green (logo #00A651) */
+  --color-accent-50: #e8f8ef;
+  --color-accent-100: #c9efd9;
+  --color-accent-500: #00a651;
+  --color-accent-600: #008a43;
+  --color-accent-700: #006e36;
+
+  /* NextSaaS neutrals */
+  --color-ink: #1a1a1c;
+  --color-bg-1: #fcfcfd;
+  --color-bg-2: #f9fafb;
+  --color-bg-3: #f4f5f8;
+  --color-bg-4: #f0f2f6;
+  --color-stroke-1: #dfe4eb;
+  --color-stroke-2: #e3e7ed;
+
+  /* kept for older pages */
+  --color-surface: #ffffff;
+  --color-canvas: #f4f5f8;
+
+  --radius-4xl: 2rem;
+  --radius-5xl: 2.5rem;
+
+  --text-display: 4.5rem;
+  --text-display--line-height: 1.08;
+  --text-h2: 3.25rem;
+  --text-h2--line-height: 1.2;
+  --text-h3: 2.5rem;
+  --text-h3--line-height: 1.2;
+  --text-h4: 2rem;
+  --text-h4--line-height: 1.3;
+  --text-h5: 1.5rem;
+  --text-h5--line-height: 1.4;
+  --text-h6: 1.25rem;
+  --text-h6--line-height: 1.4;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #ffffff;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+}
+
+/* The hero and band gradient: deep elev8 blue fading to a pale sky. */
+.panel-gradient {
+  background-image: linear-gradient(180deg, #0b2350 0%, #004aa5 38%, #7faae2 72%, #eef4fc 100%);
+}
+.panel-deep {
+  background-image: radial-gradient(120% 80% at 50% 0%, #1f5fb8 0%, rgba(31, 95, 184, 0) 60%), linear-gradient(180deg, #0b2350 0%, #0d3477 55%, #004aa5 100%);
+}
+
+/* Soft reveal used on big statements. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+.rise {
+  animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.rise-2 {
+  animation-delay: 0.12s;
+}
+.rise-3 {
+  animation-delay: 0.24s;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee {
+  animation: marquee 40s linear infinite;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-primary-500);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
