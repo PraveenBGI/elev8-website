@@ -5,7 +5,6 @@ import {
   BellAlertIcon,
   CheckBadgeIcon,
   ChevronDownIcon,
-  DocumentCheckIcon,
   GlobeEuropeAfricaIcon,
   LanguageIcon,
   MagnifyingGlassIcon,
@@ -13,98 +12,35 @@ import {
   SparklesIcon,
   ArrowsRightLeftIcon,
   LightBulbIcon,
+  MapIcon,
+  UserCircleIcon,
 } from "@heroicons/react/24/outline";
 import { corridors } from "@/content/corridors";
 import { audienceHeadline, audiencesCopy, faq, finalCta, gatewai, hero, howItWorks, marketsCopy, solutionsCopy, statement, trustCopy } from "@/content/home";
 import { img } from "@/content/images";
 import { citiesOf, countries, regionsOf } from "@/content/places";
-import { pillarName, pillars } from "@/content/pillars";
 import { audiences, site } from "@/content/site";
 import { SolutionTabs } from "@/components/home/HomeTabs";
-import { ButtonGlass, ButtonSecondary, Flag, IconTile, Logo, SectionHeading, Tagline, pillarIcon } from "@/components/ui";
+import { ButtonGlass, ButtonSecondary, Flag, IconTile, SectionHeading, Tagline } from "@/components/ui";
 
 const wrap = "mx-auto w-full max-w-[1290px] px-4 sm:px-6 lg:px-8";
 const section = "py-20 md:py-24 lg:py-32";
 
 /* ------------------------------------------------------------------ hero */
 
-/** The product, drawn in HTML: what a business sees after it signs in. */
-function ProductPreview() {
-  const follow = corridors.filter((c) => ["chennai-sohar", "bengaluru-muscat"].includes(c.slug));
+/** Stock photo strip under the hero headline, in the NextSaaS framed style. */
+function HeroPhotos() {
+  const [a, b, c] = (["business-meeting", "hero-port-containers", "investor-charts"] as const).map(img);
   return (
-    <div className="rounded-[28px] bg-white/15 p-2 ring-1 ring-white/30 backdrop-blur-md sm:p-3">
-      <div className="overflow-hidden rounded-[22px] bg-white text-start shadow-2xl">
-        {/* top bar */}
-        <div className="flex items-center gap-4 border-b border-stroke-2 px-5 py-3.5">
-          <Logo className="h-6 w-auto" />
-          <div className="hidden flex-1 items-center gap-2 rounded-xl bg-bg-3 px-4 py-2.5 text-sm text-ink/45 sm:flex">
-            <SparklesIcon className="size-4 text-primary-600" aria-hidden="true" />
-            Ask gatewAI about a market, a tender or a corridor
-          </div>
-          <span className="ms-auto inline-flex items-center gap-1.5 rounded-full bg-accent-50 px-3 py-1 text-xs font-medium text-accent-700">
-            <CheckBadgeIcon className="size-4" aria-hidden="true" /> Verified business
-          </span>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-[13rem_minmax(0,1fr)] lg:grid-cols-[13rem_minmax(0,1fr)_17rem]">
-          {/* pillars */}
-          <ul className="hidden flex-col gap-0.5 border-e border-stroke-2 p-3 md:flex">
-            {pillars.map((p, i) => {
-              const I = pillarIcon[p.id];
-              return (
-                <li key={p.id} className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm ${i === 0 ? "bg-bg-3 font-medium text-ink" : "text-ink/55"}`}>
-                  <I className="size-4" aria-hidden="true" /> {p.name}
-                </li>
-              );
-            })}
-          </ul>
-          {/* feed */}
-          <div className="min-w-0 p-5 sm:p-6">
-            <div className="flex items-baseline justify-between">
-              <p className="text-lg font-medium text-ink">{gatewai.mock.heading}</p>
-              <span className="text-xs text-ink/40">Today</span>
-            </div>
-            <ul className="mt-4 flex flex-col gap-2.5">
-              {gatewai.mock.items.map((m) => (
-                <li key={m.title} className="flex items-center justify-between gap-4 rounded-2xl border border-stroke-2 p-4">
-                  <div className="min-w-0">
-                    <p className="truncate text-[15px] font-medium text-ink">{m.title}</p>
-                    <p className="mt-0.5 text-sm text-ink/50">{m.reason}</p>
-                  </div>
-                  <span className="shrink-0 rounded-full bg-bg-3 px-2.5 py-1 text-xs font-medium text-ink/70">{pillarName(m.pillar)}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          {/* markets */}
-          <div className="hidden border-s border-stroke-2 bg-bg-2 p-5 lg:block">
-            <p className="text-sm font-medium text-ink">Your markets</p>
-            <ul className="mt-3 flex flex-col gap-2.5 text-sm">
-              {[
-                { c: "india" as const, s: "Tamil Nadu, Karnataka" },
-                { c: "oman" as const, s: "North Al Batinah, Muscat" },
-              ].map((m) => {
-                const country = countries.find((x) => x.slug === m.c)!;
-                return (
-                  <li key={m.c} className="flex items-start gap-2.5">
-                    <Flag code={country.flag} className="mt-0.5 h-3.5 w-5" />
-                    <span>
-                      <span className="block font-medium text-ink">{country.name}</span>
-                      <span className="block text-ink/50">{m.s}</span>
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-            <p className="mt-6 text-sm font-medium text-ink">Corridors you follow</p>
-            <ul className="mt-3 flex flex-col gap-2">
-              {follow.map((c) => (
-                <li key={c.slug} className="flex items-center gap-2 rounded-xl bg-white px-3 py-2 text-sm text-ink/80 ring-1 ring-stroke-2">
-                  <ArrowsRightLeftIcon className="size-4 text-primary-600" aria-hidden="true" /> {c.name}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+    <div className="grid grid-cols-2 gap-2 rounded-[28px] bg-white/15 p-2 ring-1 ring-white/30 backdrop-blur-md sm:grid-cols-[1fr_1.6fr_1fr] sm:p-3">
+      <div className="relative hidden aspect-[4/5] overflow-hidden rounded-[20px] bg-primary-800 sm:block">
+        <Image src={a.src} alt={a.alt} fill sizes="25vw" className="object-cover" />
+      </div>
+      <div className="relative col-span-2 aspect-[16/10] overflow-hidden rounded-[20px] bg-primary-800 sm:col-span-1 sm:aspect-auto">
+        <Image src={b.src} alt={b.alt} fill priority sizes="(min-width: 640px) 45vw, 100vw" className="object-cover" />
+      </div>
+      <div className="relative hidden aspect-[4/5] overflow-hidden rounded-[20px] bg-primary-800 sm:block">
+        <Image src={c.src} alt={c.alt} fill sizes="25vw" className="object-cover" />
       </div>
     </div>
   );
@@ -127,7 +63,7 @@ export function Hero() {
             <ButtonGlass href="#how">{hero.secondary}</ButtonGlass>
           </div>
           <div className="rise rise-3 mx-auto mt-16 max-w-6xl pb-8 lg:mt-20 lg:pb-14">
-            <ProductPreview />
+            <HeroPhotos />
           </div>
         </div>
       </div>
@@ -149,46 +85,7 @@ export function Statement() {
 
 /* ---------------------------------------------------------- how it works */
 
-function StepVisual({ i }: { i: number }) {
-  if (i === 0)
-    return (
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center gap-3 rounded-xl bg-white p-3 ring-1 ring-stroke-2">
-          <span className="grid size-9 place-items-center rounded-lg bg-primary-900 text-white">
-            <DocumentCheckIcon className="size-5" aria-hidden="true" />
-          </span>
-          <span className="text-sm text-ink/70">Company details</span>
-          <CheckBadgeIcon className="ms-auto size-5 text-accent-500" aria-hidden="true" />
-        </div>
-        <div className="flex items-center gap-3 rounded-xl bg-white p-3 ring-1 ring-stroke-2">
-          <span className="grid size-9 place-items-center rounded-lg bg-primary-900 text-white">
-            <CheckBadgeIcon className="size-5" aria-hidden="true" />
-          </span>
-          <span className="text-sm text-ink/70">Certificates</span>
-          <CheckBadgeIcon className="ms-auto size-5 text-accent-500" aria-hidden="true" />
-        </div>
-      </div>
-    );
-  if (i === 1)
-    return (
-      <div className="flex flex-wrap gap-2">
-        {["India", "Tamil Nadu", "Oman", "North Al Batinah", "Chennai ↔ Sohar"].map((t, k) => (
-          <span key={t} className={`rounded-full px-3.5 py-1.5 text-sm ${k === 4 ? "bg-ink text-white" : "bg-white text-ink/75 ring-1 ring-stroke-2"}`}>
-            {t}
-          </span>
-        ))}
-      </div>
-    );
-  return (
-    <div className="rounded-xl bg-white p-4 ring-1 ring-stroke-2">
-      <div className="flex items-center gap-2 text-xs text-ink/45">
-        <SparklesIcon className="size-4 text-primary-600" aria-hidden="true" /> gatewAI
-      </div>
-      <p className="mt-2 text-sm font-medium text-ink">New tender matches your sector</p>
-      <p className="mt-0.5 text-sm text-ink/50">Industrial supply for Duqm</p>
-    </div>
-  );
-}
+const stepIcons = [UserCircleIcon, MapIcon, SparklesIcon];
 
 export function HowItWorks() {
   return (
@@ -196,14 +93,14 @@ export function HowItWorks() {
       <SectionHeading id="how-title" eyebrow={howItWorks.eyebrow} title={howItWorks.title} align="center" />
       <ol className="mt-14 grid gap-2 rounded-[28px] bg-bg-3 p-2 lg:grid-cols-3">
         {howItWorks.steps.map((s, i) => (
-          <li key={s.title} className="flex flex-col justify-between gap-10 rounded-[22px] bg-bg-1 p-7 ring-1 ring-stroke-2/60 sm:p-9">
-            <div>
-              <span className="text-sm font-medium tracking-widest text-primary-600">{String(i + 1).padStart(2, "0")}</span>
-              <h3 className="mt-4 text-h5 font-normal tracking-[-0.01em] text-ink sm:text-[1.75rem]">{s.title}</h3>
-              <p className="mt-3 text-ink/60">{s.text}</p>
+          <li key={s.title} className="flex flex-col gap-14 rounded-[22px] bg-bg-1 p-7 ring-1 ring-stroke-2/60 sm:p-9">
+            <div className="flex items-center justify-between">
+              <IconTile icon={stepIcons[i]} />
+              <span className="text-5xl font-light tracking-tight text-ink/10">{String(i + 1).padStart(2, "0")}</span>
             </div>
-            <div className="rounded-2xl bg-bg-3 p-4">
-              <StepVisual i={i} />
+            <div>
+              <h3 className="text-h5 font-normal tracking-[-0.01em] text-ink sm:text-[1.75rem]">{s.title}</h3>
+              <p className="mt-3 text-ink/60">{s.text}</p>
             </div>
           </li>
         ))}
@@ -230,6 +127,7 @@ export function SolutionsSection() {
 const gwIcons = [MagnifyingGlassIcon, ArrowsRightLeftIcon, BellAlertIcon, LightBulbIcon];
 
 export function Gatewai() {
+  const gwPic = img("hero-team-laptops");
   return (
     <section id="gatewai" aria-labelledby="gw-title" className="px-2">
       <div className="panel-deep overflow-hidden rounded-3xl md:rounded-[40px] xl:rounded-[56px]">
@@ -253,30 +151,8 @@ export function Gatewai() {
               })}
             </ul>
             <div className="rounded-[28px] bg-white/15 p-2 ring-1 ring-white/30 backdrop-blur-md">
-              <div className="flex h-full flex-col rounded-[22px] bg-white p-6 sm:p-8">
-                <div className="flex items-center gap-2 text-sm text-ink/50">
-                  <SparklesIcon className="size-5 text-primary-600" aria-hidden="true" /> gatewAI
-                </div>
-                <div className="mt-6 flex flex-col gap-4">
-                  <p className="ms-auto max-w-[85%] rounded-2xl rounded-ee-md bg-ink px-4 py-3 text-[15px] text-white">{gatewai.chat.ask}</p>
-                  <div className="max-w-[92%] rounded-2xl rounded-es-md bg-bg-3 px-4 py-3 text-[15px] text-ink/80">
-                    <p>{gatewai.chat.answer}</p>
-                    <ul className="mt-3 flex flex-col gap-2">
-                      {gatewai.chat.results.map((r) => (
-                        <li key={r.title} className="flex items-center justify-between gap-3 rounded-xl bg-white px-3.5 py-2.5 ring-1 ring-stroke-2">
-                          <span className="min-w-0">
-                            <span className="block truncate font-medium text-ink">{r.title}</span>
-                            <span className="block text-sm text-ink/50">{r.meta}</span>
-                          </span>
-                          <span className="shrink-0 rounded-full bg-bg-3 px-2.5 py-1 text-xs font-medium text-ink/70">{pillarName(r.pillar)}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-                <div className="mt-6 flex items-center gap-3 rounded-2xl px-4 py-3.5 text-sm text-ink/45 ring-1 ring-stroke-1 lg:mt-auto">
-                  <MagnifyingGlassIcon className="size-4" aria-hidden="true" /> Ask about a market, a tender or a corridor
-                </div>
+              <div className="relative h-full min-h-[22rem] overflow-hidden rounded-[22px] bg-primary-800">
+                <Image src={gwPic.src} alt={gwPic.alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
               </div>
             </div>
           </div>

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLongRightIcon, ArrowsRightLeftIcon, BriefcaseIcon, MapPinIcon } from "@heroicons/react/24/outline";
-import { isCityCorridor, refContext, refHref, refName, type Corridor, type PlaceRef } from "@/content/corridors";
+import { refContext, refHref, refName, type Corridor, type PlaceRef } from "@/content/corridors";
 import { img, type FlagCode, type ImageName } from "@/content/images";
 import type { Opportunity } from "@/content/opportunities";
 import { countryBySlug } from "@/content/places";
@@ -99,7 +99,6 @@ export function CorridorCard({ c }: { c: Corridor }) {
         <div className="flex flex-col gap-y-2">
           <span className="text-sm text-ink/60">
             {c.scope === "international" ? "International" : "Domestic"} · {c.kind === "bilateral" ? "Two-way" : `${c.stops.length}-stop route`}
-            {isCityCorridor(c) ? " · Investment and trade" : ""}
           </span>
           <h3 className="text-lg font-normal text-ink">
             <Link href={`/corridors/${c.slug}`} className="after:absolute after:inset-0">
@@ -134,7 +133,6 @@ export function CorridorRow({ c }: { c: Corridor }) {
         <div className="flex flex-wrap items-center gap-2 text-sm text-ink/60">
           <span>{c.scope === "international" ? "International" : "Domestic"}</span>
           {c.agreement && <Badge tone="red">{c.agreement}</Badge>}
-          {isCityCorridor(c) && <Badge tone="green">Investment and trade</Badge>}
         </div>
         <h3 className="text-h6 font-normal text-ink">
           <Link href={`/corridors/${c.slug}`} className="after:absolute after:inset-0">

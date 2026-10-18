@@ -3,7 +3,7 @@ import { feature } from "topojson-client";
 import type { Topology, GeometryCollection } from "topojson-specification";
 import type { FeatureCollection, Geometry } from "geojson";
 import world from "world-atlas/countries-110m.json";
-import { corridors, type Corridor, type PlaceRef } from "@/content/corridors";
+import { corridors, gatewayFor, type Corridor, type PlaceRef } from "@/content/corridors";
 import { cities, citiesOf, cityHref, countries, type City } from "@/content/places";
 
 /** ISO 3166 numeric ids used by world-atlas for countries on the platform. */
@@ -31,9 +31,11 @@ const LABEL: Record<string, [number, number, "start" | "end"]> = {
 const W = 1000;
 const H = 600;
 
-function cityFor(ref: PlaceRef): City | undefined {
-  if (ref.city) return cities.find((c) => c.country === ref.c && c.slug === ref.city);
-  return citiesOf(ref.c, ref.r)[0];
+function cityFor(ref: PlaceRef, k?: Corridor): City | undefined {
+  const g = k ? gatewayFor(k, ref) : undefined;
+  const r = g ?? ref;
+  if (r.city) return cities.find((c) => c.country === r.c && c.slug === r.city);
+  return citiesOf(r.c, r.r)[0];
 }
 
 export function NetworkMap({ only, className = "", id = "network-map" }: { only?: Corridor[]; className?: string; id?: string }) {
@@ -41,7 +43,7 @@ export function NetworkMap({ only, className = "", id = "network-map" }: { only?
   const all = feature(topo, topo.objects.countries) as unknown as FeatureCollection<Geometry, { name: string }>;
 
   // Zoom to the corridor when one is given, otherwise show the whole network.
-  const focus = only?.length === 1 ? only[0].stops.map(cityFor).filter(Boolean) as City[] : [];
+  const focus = only?.length === 1 ? only[0].stops.map((s) => cityFor(s, only[0])).filter(Boolean) as City[] : [];
   let bounds: [number, number][] = [[-10, 60], [88, 60], [88, -12], [-10, -12]];
   if (focus.length) {
     const lngs = focus.map((c) => c.lng);
@@ -65,8 +67,8 @@ export function NetworkMap({ only, className = "", id = "network-map" }: { only?
   const list = only ?? corridors;
   const arcs = list.flatMap((k) =>
     k.stops.slice(1).map((s, i) => {
-      const a = cityFor(k.stops[i]);
-      const b = cityFor(s);
+      const a = cityFor(k.stops[i], k);
+      const b = cityFor(s, k);
       if (!a || !b) return null;
       const [x1, y1] = projection([a.lng, a.lat])!;
       const [x2, y2] = projection([b.lng, b.lat])!;
@@ -81,7 +83,7 @@ export function NetworkMap({ only, className = "", id = "network-map" }: { only?
     }),
   ).filter(Boolean) as { key: string; d: string; domestic: boolean }[];
 
-  const endpoints = new Set(list.flatMap((k) => k.stops.map((s) => cityFor(s)?.slug)));
+  const endpoints = new Set(list.flatMap((k) => k.stops.map((s) => cityFor(s, k)?.slug)));
 
   return (
     <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby={`${id}-title`} className={`h-auto w-full ${className}`}>

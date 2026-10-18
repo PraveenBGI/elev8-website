@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { ArrowLongRightIcon, ArrowsRightLeftIcon, MagnifyingGlassIcon, MapPinIcon, SparklesIcon } from "@heroicons/react/24/outline";
 import { findCorridors, parseRefKey, refName, type PlaceRef } from "@/content/corridors";
-import { cities, countries, regions } from "@/content/places";
+import { countries, regions } from "@/content/places";
 import { site } from "@/content/site";
 
 /** One field of the Chisfis hero search bar: big outline icon, bold label, quiet hint. */
@@ -25,20 +25,12 @@ function PlaceField({ id, label, value, onChange, placeholder, icon: Icon }: { i
               <option value={c.slug}>{c.name} (whole country)</option>
               {regions
                 .filter((r) => r.country === c.slug)
-                .flatMap((r) => [
+                .map((r) => (
                   <option key={r.slug} value={`${c.slug}/${r.slug}`}>
                     {"  "}
                     {r.name} ({c.regionTerm.toLowerCase()})
-                  </option>,
-                  ...cities
-                    .filter((x) => x.country === c.slug && x.region === r.slug)
-                    .map((x) => (
-                      <option key={`${r.slug}-${x.slug}`} value={`${c.slug}/${r.slug}/${x.slug}`}>
-                        {"      "}
-                        {x.name}
-                      </option>
-                    )),
-                ])}
+                  </option>
+                ))}
             </optgroup>
           ))}
         </select>
@@ -51,10 +43,10 @@ function PlaceField({ id, label, value, onChange, placeholder, icon: Icon }: { i
 }
 
 const SUGGESTIONS = [
-  { from: "india/tamil-nadu/chennai", to: "oman/north-batinah/sohar" },
-  { from: "india/karnataka/bengaluru", to: "oman/muscat/muscat" },
-  { from: "united-kingdom/scotland/aberdeen", to: "oman/al-wusta/duqm" },
-  { from: "tanzania/zanzibar/zanzibar-city", to: "oman" },
+  { from: "india/tamil-nadu", to: "oman/north-batinah" },
+  { from: "india/karnataka", to: "oman/muscat" },
+  { from: "united-kingdom/scotland", to: "oman/al-wusta" },
+  { from: "tanzania/zanzibar", to: "oman" },
 ];
 
 export function CorridorFinder() {
@@ -74,7 +66,7 @@ export function CorridorFinder() {
         onSubmit={(e) => e.preventDefault()}
         className="relative flex flex-col gap-1 rounded-3xl bg-white p-2 shadow-xl ring-1 ring-black/5 md:flex-row md:items-center md:gap-0 md:rounded-full"
       >
-        <PlaceField id="finder-from" label="Trading or investing from" value={from} onChange={setFrom} placeholder="Country, state or city" icon={MapPinIcon} />
+        <PlaceField id="finder-from" label="Trading or investing from" value={from} onChange={setFrom} placeholder="Country or state" icon={MapPinIcon} />
         <div className="relative flex items-center justify-center md:h-10">
           <span className="absolute inset-x-6 h-px bg-neutral-200 md:inset-x-auto md:inset-y-0 md:h-full md:w-px" aria-hidden="true" />
           <button

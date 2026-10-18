@@ -73,7 +73,7 @@ export default async function CityPage({ params }: PageProps<"/countries/[countr
         </div>
 
         <ZonesBlock zones={zonesOf(c.slug, r.slug, x.slug)} title={`Ports and zones in ${x.name}`} />
-        <CorridorsBlock list={corridorsTouching(ref)} title={`Trade corridors from ${x.name}`} />
+        <CorridorsBlock list={corridorsTouching(ref)} title={`Corridors through ${r.name}`} />
         <OpportunitiesBlock list={opportunitiesIn(ref)} title={`Opportunities in ${x.name}`} />
 
         {nearby.length > 0 && (

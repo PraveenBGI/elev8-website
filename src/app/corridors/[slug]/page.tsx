@@ -50,7 +50,7 @@ export default async function CorridorPage({ params }: PageProps<"/corridors/[sl
         title={c.name}
         subtitle={c.summary}
         image={c.image}
-        gallery={stopImages}
+        gallery={[...stopImages, ...(c.gateways ?? []).map((g) => cityBy(g.c, g.city!)!.image)]}
       >
         <HeroButton>Follow this corridor</HeroButton>
       </PageHero>
@@ -58,7 +58,7 @@ export default async function CorridorPage({ params }: PageProps<"/corridors/[sl
       <div className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
         <div className="mt-12 grid gap-10 lg:grid-cols-[1fr_24rem] lg:gap-14">
           <div className="flex flex-col gap-y-10">
-            <DetailSection title="Route" id="route" description="Every stop is a country, a state or a city with an investment and trade case.">
+            <DetailSection title="Route" id="route" description="elev8 corridors run state to state, so each end has its own rules, sectors and partners.">
               <StopChain c={c} />
             </DetailSection>
             <DetailSection title="Why use this corridor" id="offers">
@@ -77,7 +77,7 @@ export default async function CorridorPage({ params }: PageProps<"/corridors/[sl
           <AtAGlance
             rows={[
               { label: "Type", value: c.scope === "international" ? "International" : "Domestic" },
-              { label: "Stops", value: String(c.stops.length) },
+              { label: c.stops.every((s) => s.c === c.stops[0].c) ? "States" : "States and regions", value: String(c.stops.length) },
               { label: "Direction", value: c.kind === "bilateral" ? "Two-way" : "Route" },
               ...(c.agreement ? [{ label: "Agreement", value: c.agreement }] : []),
             ]}
@@ -88,7 +88,7 @@ export default async function CorridorPage({ params }: PageProps<"/corridors/[sl
           />
         </div>
 
-        <Block title="The places on this corridor" id="ends" description="Each end is shown at every level, so you can see the city, the state around it and the country it belongs to.">
+        <Block title="The places on this corridor" id="ends" description="Open a state to see its sectors, zones and the cities that matter for investment and trade.">
           <ul className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
             {c.stops.map((s, i) => {
               const country = countryBySlug(s.c)!;
@@ -107,6 +107,21 @@ export default async function CorridorPage({ params }: PageProps<"/corridors/[sl
             })}
           </ul>
         </Block>
+
+        {c.gateways && c.gateways.length > 0 && (
+          <Block title="Key cities and ports" id="gateways" description="Where goods and investment move on this corridor. Shown for investors, importers and exporters.">
+            <ul className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
+              {c.gateways.map((g) => {
+                const city = cityBy(g.c, g.city!)!;
+                return (
+                  <li key={`${g.c}-${g.city}`}>
+                    <PlaceCard href={refHref(g)} image={city.image} title={city.name} flag={countryBySlug(g.c)!.flag} subtitle={`${regionBy(g.c, g.r!)!.name} · ${city.sectors.slice(0, 2).join(", ")}`} />
+                  </li>
+                );
+              })}
+            </ul>
+          </Block>
+        )}
 
         <Block title="On the map" id="map">
           <div className="overflow-hidden rounded-2xl border border-stroke-1 bg-white p-2 sm:p-4">

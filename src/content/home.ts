@@ -57,22 +57,6 @@ export const gatewai = {
     { title: "Compliance alerts", text: "A nudge before a licence or certificate needs action." },
     { title: "Trade recommendations", text: "Next steps, suggested from your profile and activity." },
   ],
-  chat: {
-    ask: "Which opportunities on the Chennai to Sohar corridor fit an auto parts exporter?",
-    answer: "Two match your sectors and the states you follow.",
-    results: [
-      { title: "Automobile components, Chennai ↔ Sohar", meta: "Export · On a corridor you follow", pillar: "export" as PillarId },
-      { title: "Metals and industrial inputs, Sohar", meta: "B2B · Buyers in North Al Batinah", pillar: "b2b" as PillarId },
-    ],
-  },
-  mock: {
-    heading: "Matched for you",
-    items: [
-      { title: "Automobile components, Chennai ↔ Sohar", reason: "On a corridor you follow", pillar: "export" as PillarId },
-      { title: "Industrial supply for Duqm", reason: "Matches your sector", pillar: "procurement" as PillarId },
-      { title: "Trade licence renewal", reason: "Action needed soon", pillar: "governance" as PillarId },
-    ],
-  },
 };
 
 export const trustCopy = {

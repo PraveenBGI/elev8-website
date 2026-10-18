@@ -1,7 +1,7 @@
 /**
- * Corridors connect places at any level: country, state/region or city.
- * A corridor stop names the deepest level that matters (usually the city),
- * and the site shows its state and country around it.
+ * Corridors connect states (or regions, governorates, nations) across or within countries.
+ * The platform works at country and state level, so every stop is a state.
+ * Gateways are the cities and ports along a corridor, shown for investors and traders.
  */
 import type { ImageName } from "./images";
 import type { PillarId } from "./pillars";
@@ -23,6 +23,8 @@ export type Corridor = {
   scope: "international" | "domestic";
   kind: "bilateral" | "route";
   stops: PlaceRef[];
+  /** Key cities and ports along the corridor (insight for investors and traders, not stops). */
+  gateways?: PlaceRef[];
   pillars: PillarId[];
   summary: string;
   moves: string[];
@@ -34,80 +36,86 @@ export type Corridor = {
 
 export const corridors: Corridor[] = [
   {
-    slug: "chennai-sohar",
-    name: "Chennai ↔ Sohar",
+    slug: "tamil-nadu-north-batinah",
+    name: "Tamil Nadu ↔ North Al Batinah",
     scope: "international",
     kind: "bilateral",
-    stops: [{ c: "india", r: "tamil-nadu", city: "chennai" }, { c: "oman", r: "north-batinah", city: "sohar" }],
-    pillars: ["export", "import", "investment"],
-    summary: "Tamil Nadu’s manufacturing base meets Oman’s northern industrial port.",
-    moves: ["Automobile parts and components", "Engineering goods", "Metals and industrial inputs"],
-    highlights: ["Chennai houses a major portion of India’s automobile industry", "SOHAR Port and Freezone covers over 4,500 hectares", "India–Oman CEPA lowers duties on most goods"],
+    stops: [{ c: "india", r: "tamil-nadu" }, { c: "oman", r: "north-batinah" }],
+    gateways: [{ c: "india", r: "tamil-nadu", city: "chennai" }, { c: "india", r: "tamil-nadu", city: "coimbatore" }, { c: "oman", r: "north-batinah", city: "sohar" }],
+    pillars: ["export", "import", "icv", "procurement"],
+    summary: "State to governorate: Tamil Nadu’s manufacturing base and Oman’s northern industrial coast.",
+    moves: ["Automobile parts and components", "Engineering goods", "Textiles", "Metals and industrial inputs"],
+    highlights: ["Manufacturing is nearly one-third of Tamil Nadu’s GDP", "SOHAR Port and Freezone covers over 4,500 hectares", "India–Oman CEPA lowers duties on most goods"],
     agreement: "India–Oman CEPA (2025)",
     featured: true,
-    image: "in-chennai",
+    image: "in-tamil-nadu",
   },
   {
-    slug: "bengaluru-muscat",
-    name: "Bengaluru ↔ Muscat",
+    slug: "karnataka-muscat",
+    name: "Karnataka ↔ Muscat",
     scope: "international",
     kind: "bilateral",
-    stops: [{ c: "india", r: "karnataka", city: "bengaluru" }, { c: "oman", r: "muscat", city: "muscat" }],
-    pillars: ["investment", "export"],
-    summary: "India’s technology capital connected with Oman’s capital for digital services.",
+    stops: [{ c: "india", r: "karnataka" }, { c: "oman", r: "muscat" }],
+    gateways: [{ c: "india", r: "karnataka", city: "bengaluru" }, { c: "oman", r: "muscat", city: "muscat" }],
+    pillars: ["investment", "export", "b2b"],
+    summary: "India’s technology state connected with Oman’s capital governorate for digital and engineering services.",
     moves: ["IT and software services", "Digital government and fintech", "Engineering services"],
-    highlights: ["Bengaluru is a major centre for information technology", "The CEPA includes commitments on services and worker mobility", "Muscat is Oman’s centre for government and services"],
+    highlights: ["Karnataka is India’s third-largest state economy", "The CEPA includes commitments on services and worker mobility", "Muscat is Oman’s centre for government and services"],
     agreement: "India–Oman CEPA (2025)",
     featured: true,
-    image: "in-bengaluru",
+    image: "in-karnataka",
   },
   {
-    slug: "mundra-salalah-dar-es-salaam",
-    name: "Mundra → Salalah → Dar es Salaam",
+    slug: "gujarat-dhofar-dar-es-salaam",
+    name: "Gujarat → Dhofar → Dar es Salaam",
     scope: "international",
     kind: "route",
-    stops: [{ c: "india", r: "gujarat", city: "mundra" }, { c: "oman", r: "dhofar", city: "salalah" }, { c: "tanzania", r: "dar-es-salaam", city: "dar-es-salaam" }],
+    stops: [{ c: "india", r: "gujarat" }, { c: "oman", r: "dhofar" }, { c: "tanzania", r: "dar-es-salaam" }],
+    gateways: [{ c: "india", r: "gujarat", city: "mundra" }, { c: "oman", r: "dhofar", city: "salalah" }, { c: "tanzania", r: "dar-es-salaam", city: "dar-es-salaam" }],
     pillars: ["export", "import"],
-    summary: "A port-to-port route across the Arabian Sea linking India, Oman and East Africa.",
+    summary: "A sea route across the Arabian Sea linking an Indian state, an Omani governorate and a Tanzanian region.",
     moves: ["Containerised goods", "Food and agricultural products", "Building materials"],
-    highlights: ["Mundra is India’s largest commercial and container port", "Port of Salalah serves East Africa and the Indian subcontinent", "Dar es Salaam is Tanzania’s principal port"],
+    highlights: ["Gujarat is home to Mundra, India’s largest commercial and container port", "Dhofar’s Port of Salalah serves East Africa and the Indian subcontinent", "Dar es Salaam is home to Tanzania’s principal port"],
     featured: true,
     image: "pillar-export",
   },
   {
-    slug: "kochi-duqm",
-    name: "Kochi ↔ Duqm",
+    slug: "kerala-al-wusta",
+    name: "Kerala ↔ Al Wusta",
     scope: "international",
     kind: "bilateral",
-    stops: [{ c: "india", r: "kerala", city: "kochi" }, { c: "oman", r: "al-wusta", city: "duqm" }],
+    stops: [{ c: "india", r: "kerala" }, { c: "oman", r: "al-wusta" }],
+    gateways: [{ c: "india", r: "kerala", city: "kochi" }, { c: "oman", r: "al-wusta", city: "duqm" }],
     pillars: ["export", "import", "investment"],
-    summary: "Kerala’s seafood and shipping coast meets Oman’s economic zone on the Arabian Sea.",
+    summary: "Kerala’s seafood and shipping coast meets Oman’s central governorate on the Arabian Sea.",
     moves: ["Seafood and fisheries", "Spices", "Marine and shipping services"],
-    highlights: ["Kochi is a major port city on the Malabar Coast", "Duqm Fishing Port is Oman’s largest multi-purpose fishing port", "Kerala has deep people-to-people links with the Gulf"],
+    highlights: ["Kerala has deep people-to-people links with the Gulf", "Al Wusta is home to the Special Economic Zone at Duqm", "Duqm Fishing Port is Oman’s largest multi-purpose fishing port"],
     agreement: "India–Oman CEPA (2025)",
-    image: "in-kochi",
+    image: "in-kerala",
   },
   {
-    slug: "mumbai-muscat",
-    name: "Mumbai ↔ Muscat",
+    slug: "maharashtra-muscat",
+    name: "Maharashtra ↔ Muscat",
     scope: "international",
     kind: "bilateral",
-    stops: [{ c: "india", r: "maharashtra", city: "mumbai" }, { c: "oman", r: "muscat", city: "muscat" }],
+    stops: [{ c: "india", r: "maharashtra" }, { c: "oman", r: "muscat" }],
+    gateways: [{ c: "india", r: "maharashtra", city: "mumbai" }, { c: "oman", r: "muscat", city: "muscat" }],
     pillars: ["investment", "export"],
-    summary: "India’s financial capital linked with Oman’s capital for finance and investment.",
+    summary: "India’s largest state economy linked with Oman’s capital governorate for finance and investment.",
     moves: ["Investment and financial services", "Trading houses", "Consumer goods"],
-    highlights: ["Mumbai is the financial capital of India", "Maharashtra is India’s largest state economy", "Jawaharlal Nehru Port is a large container port"],
+    highlights: ["Maharashtra is India’s largest state economy", "Mumbai is the financial capital of India", "Jawaharlal Nehru Port is a large container port"],
     agreement: "India–Oman CEPA (2025)",
-    image: "in-mumbai",
+    image: "in-maharashtra",
   },
   {
-    slug: "salalah-dar-es-salaam",
-    name: "Salalah ↔ Dar es Salaam",
+    slug: "dhofar-dar-es-salaam",
+    name: "Dhofar ↔ Dar es Salaam",
     scope: "international",
     kind: "bilateral",
-    stops: [{ c: "oman", r: "dhofar", city: "salalah" }, { c: "tanzania", r: "dar-es-salaam", city: "dar-es-salaam" }],
+    stops: [{ c: "oman", r: "dhofar" }, { c: "tanzania", r: "dar-es-salaam" }],
+    gateways: [{ c: "oman", r: "dhofar", city: "salalah" }, { c: "tanzania", r: "dar-es-salaam", city: "dar-es-salaam" }],
     pillars: ["export", "import"],
-    summary: "Port to port between southern Oman and Tanzania’s main gateway.",
+    summary: "Southern Oman and Tanzania’s commercial region, port to port.",
     moves: ["Food and agricultural products", "Consumer goods", "Building materials"],
     highlights: ["Port of Salalah is Oman’s largest port", "Port of Dar es Salaam is Tanzania’s principal port", "Air links already carry agricultural and seafood trade"],
     image: "tz-dar-es-salaam",
@@ -117,54 +125,44 @@ export const corridors: Corridor[] = [
     name: "Zanzibar ↔ Muscat",
     scope: "international",
     kind: "bilateral",
-    stops: [{ c: "tanzania", r: "zanzibar", city: "zanzibar-city" }, { c: "oman", r: "muscat", city: "muscat" }],
+    stops: [{ c: "tanzania", r: "zanzibar" }, { c: "oman", r: "muscat" }],
+    gateways: [{ c: "tanzania", r: "zanzibar", city: "zanzibar-city" }, { c: "oman", r: "muscat", city: "muscat" }],
     pillars: ["import", "investment"],
-    summary: "A corridor built on more than three centuries of shared history.",
+    summary: "A region-to-governorate corridor built on more than three centuries of shared history.",
     moves: ["Spices", "Seafood", "Tourism and hospitality"],
     highlights: ["Zanzibar was linked to Oman from 1698", "Zanzibar’s main industries are spices, raffia and tourism", "Stone Town is a UNESCO World Heritage Site"],
     featured: true,
     image: "tz-zanzibar",
   },
   {
-    slug: "london-muscat",
-    name: "London ↔ Muscat",
+    slug: "england-muscat",
+    name: "England ↔ Muscat",
     scope: "international",
     kind: "bilateral",
-    stops: [{ c: "united-kingdom", r: "england", city: "london" }, { c: "oman", r: "muscat", city: "muscat" }],
+    stops: [{ c: "united-kingdom", r: "england" }, { c: "oman", r: "muscat" }],
+    gateways: [{ c: "united-kingdom", r: "england", city: "london" }, { c: "oman", r: "muscat", city: "muscat" }],
     pillars: ["investment", "export"],
     summary: "Finance and professional services under the new GCC–UK agreement.",
     moves: ["Investment and finance", "Professional services", "Education and training"],
-    highlights: ["GCC–UK free trade agreement signed 20 May 2026", "First FTA between a G7 member and the GCC", "The City of London is London’s historic financial centre"],
+    highlights: ["GCC–UK free trade agreement signed 20 May 2026", "First FTA between a G7 member and the GCC", "England is home to the City of London financial centre"],
     agreement: "GCC–UK FTA (2026)",
     featured: true,
-    image: "uk-london",
+    image: "uk-england",
   },
   {
-    slug: "aberdeen-duqm",
-    name: "Aberdeen ↔ Duqm",
+    slug: "scotland-al-wusta",
+    name: "Scotland ↔ Al Wusta",
     scope: "international",
     kind: "bilateral",
-    stops: [{ c: "united-kingdom", r: "scotland", city: "aberdeen" }, { c: "oman", r: "al-wusta", city: "duqm" }],
-    pillars: ["investment", "import"],
-    summary: "Offshore energy expertise meets a new industrial zone on the Arabian Sea.",
+    stops: [{ c: "united-kingdom", r: "scotland" }, { c: "oman", r: "al-wusta" }],
+    gateways: [{ c: "united-kingdom", r: "scotland", city: "aberdeen" }, { c: "oman", r: "al-wusta", city: "duqm" }],
+    pillars: ["investment", "import", "sustainability"],
+    summary: "Scotland’s offshore energy expertise meets Oman’s new industrial zone on the Arabian Sea.",
     moves: ["Energy engineering services", "Energy transition partnerships", "Equipment and training"],
-    highlights: ["Aberdeen is known as the offshore oil capital of Europe", "Duqm hosts the Special Economic Zone at Duqm", "GCC–UK FTA covers trade in services"],
+    highlights: ["Aberdeen is known as the offshore oil capital of Europe", "Al Wusta hosts the Special Economic Zone at Duqm", "GCC–UK FTA covers trade in services"],
     agreement: "GCC–UK FTA (2026)",
     featured: true,
-    image: "uk-aberdeen",
-  },
-  {
-    slug: "tamil-nadu-north-batinah",
-    name: "Tamil Nadu ↔ North Al Batinah",
-    scope: "international",
-    kind: "bilateral",
-    stops: [{ c: "india", r: "tamil-nadu" }, { c: "oman", r: "north-batinah" }],
-    pillars: ["icv", "procurement", "export"],
-    summary: "State to governorate: two manufacturing regions building supply chains together.",
-    moves: ["Industrial suppliers", "Textiles", "Engineering"],
-    highlights: ["Manufacturing is nearly one-third of Tamil Nadu’s GDP", "North Al Batinah is Oman’s northern industrial hub", "Coimbatore is known as the “Manchester of South India”"],
-    agreement: "India–Oman CEPA (2025)",
-    image: "in-tamil-nadu",
+    image: "uk-scotland",
   },
 
   // domestic corridors in every country
@@ -254,9 +252,6 @@ export function refHref(p: PlaceRef) {
   return countryHref(p.c);
 }
 
-/** Corridors that name a city are shown for investment and trade. */
-export const isCityCorridor = (k: Corridor) => k.stops.some((s) => s.city);
-
 export const refLevel = (p: PlaceRef) => (p.city ? "City" : p.r ? countryBySlug(p.c)!.regionTerm : "Country");
 
 /** True when one place contains the other (or they are the same). */
@@ -285,3 +280,6 @@ export function findCorridors(from?: PlaceRef, to?: PlaceRef) {
 }
 
 export const corridorsTouching = (p: PlaceRef) => corridors.filter((k) => k.stops.some((s) => related(s, p)));
+
+/** The city used to draw a stop on the map: its gateway on this corridor if there is one. */
+export const gatewayFor = (k: Corridor, s: PlaceRef) => k.gateways?.find((g) => g.c === s.c && g.r === s.r);

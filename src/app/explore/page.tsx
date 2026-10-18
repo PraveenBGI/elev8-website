@@ -17,7 +17,7 @@ export default function ExplorePage() {
         crumbs={[{ label: "Home", href: "/" }, { label: "Network map" }]}
         eyebrow="Network map"
         title="The elev8 network"
-        description="Every dot is a city on the platform and every line is a corridor. Select a city on the map, or browse country by country below."
+        description="Every line is a corridor between states. Every dot is a key city or port, shown for investors and traders. Select one on the map, or browse country by country below."
       />
       <div className="mx-auto max-w-7xl px-4 pb-8 sm:px-6 lg:px-8">
         <div className="overflow-hidden rounded-[2rem] bg-white p-2 ring-1 ring-neutral-200 sm:p-4">
